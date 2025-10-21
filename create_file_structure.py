@@ -1,77 +1,107 @@
+
+#!/usr/bin/env python3
 """
-Script: setup_learning_hub_structure.py
-Purpose: Creates the folder structure for an existing repo 'learning-hub-and-certifications'
-without duplicating the root folder.
-Author: Konstantin Milonas
+organize_certificates_by_topic.py
+Reorganize certificates into topic folders for the repo 'learning-hub-and-certifications'.
+
+- Creates topic folders if missing
+- Moves known certificate files into the corresponding topic folder
+- Skips .git and leaves non-matching files untouched
+- Safe: only moves files that exist
+
+Usage:
+  python organize_certificates_by_topic.py
 """
 
 import os
+import shutil
+from pathlib import Path
 
-# Work inside the current directory (assuming you're already in the repo)
-root = "."
+# Root: current working directory (run this from your repo root)
+ROOT = Path(".")
 
-folders = [
-    "01_Active_Modules/DeepLearning.AI_Agentic_AI_Engineering",
-    "01_Active_Modules/Tableau_Data_Analyst_Certification",
-    "01_Active_Modules/Coursera_AI_for_Everyone",
+# Where the files currently are (adjust if your files are elsewhere, e.g., in "./certificates")
+SEARCH_DIRS = [ROOT, ROOT / "certificates"]
 
-    "02_Certificates/DeepLearning.AI",
-    "02_Certificates/Google",
-    "02_Certificates/Vanderbilt_University",
-    "02_Certificates/Stanford_University",
-    "02_Certificates/DataCamp",
-    "02_Certificates/LinkedIn_Learning",
-    "02_Certificates/Tableau",
+# Topic folders to create
+TOPIC_DIRS = {
+    "01_AI_and_Prompt_Engineering": [
+        "Coursera Advanced Prompt Engineering FK0CK21OLAY4.pdf",
+        "Coursera M2YMZQK1THQA GOOGLE Introduction to AI.pdf",
+        "Coursera DT0XYZO56DNL Google AI Essentials.pdf",
+        "ai_python_for_beginners_id2457.png",
+        "agentic_ai_id2601.png",
+        "Konstantin_Milonas_Data_Science_Fundamentals_english.pdf",
+    ],
+    "02_Data_Analytics_and_Tableau": [
+        "Datacamp Analyzing Data in Tableau.pdf",
+        "Datacamp Calculations in Tableau.pdf",
+        "Datacamp Statistical Techniques in Tableau.pdf",
+        "Coursera Data Ecosystem 1FBABXJDT2JH.pdf",
+        "Konstantin_Milonas_Data_Science_Fundamentals_german.pdf",
+    ],
+    "03_Python_and_Tools": [
+        "Datacamp Intermediate Python.pdf",
+        "Datacamp introduction to GitHub Concepts.pdf",
+        "Coursera Getting started with Python 65VKNHGM21R2.pdf",
+        "Coursera Manage Git Versions D9T3WRHTLBHR.pdf",
+    ],
+    "04_Productivity_and_AI_Workflows": [
+        "Coursera 28G90KJ018BR Maximize Productivity With AI Tools.pdf",
+    ],
+}
 
-    "03_Planned_Learning/AI_Agent_Systems",
-    "03_Planned_Learning/Cloud_Data_Platforms"
-]
+EXCLUDE_DIRS = {".git", ".github", "__pycache__"}
 
-for folder in folders:
-    os.makedirs(folder, exist_ok=True)
+def ensure_dirs():
+    for topic in TOPIC_DIRS.keys():
+        Path(topic).mkdir(parents=True, exist_ok=True)
 
-readme_content = """# 📘 Learning Hub & Certifications
+def find_file_anywhere(fname: str) -> Path | None:
+    for base in SEARCH_DIRS:
+        if not base.exists():
+            continue
+        for root, dirs, files in os.walk(base):
+            # prune excluded dirs
+            dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS]
+            if fname in files:
+                return Path(root) / fname
+    return None
 
-This repository documents the continuous learning path of **Konstantin Milonas** in the fields of **Data Analytics, AI, MLOps, and Cloud Data Platforms**.
+def move_files():
+    moved = []
+    missing = []
+    for topic, files in TOPIC_DIRS.items():
+        for fname in files:
+            src = find_file_anywhere(fname)
+            if src and src.is_file():
+                dest = Path(topic) / fname
+                # Skip if already in place
+                if src.resolve() == dest.resolve():
+                    continue
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.move(str(src), str(dest))
+                moved.append((str(src), str(dest)))
+            else:
+                missing.append(fname)
+    return moved, missing
 
-## Structure
-1. **Active Modules** – Ongoing courses, certifications, and notes.
-2. **Certificates** – Completed and verifiable training programs.
-3. **Planned Learning** – Future topics and skill focus areas.
+def main():
+    ensure_dirs()
+    moved, missing = move_files()
 
----
+    print("=== Summary ===")
+    if moved:
+        print(f"Moved {len(moved)} file(s):")
+        for s, d in moved:
+            print(f"  - {s} -> {d}")
+    else:
+        print("No files moved.")
 
-## 🚀 Current Focus
-- Agentic AI Workflows (DeepLearning.AI)
-- Tableau Certified Data Analyst
-- Advanced Python & MLOps Foundations
-- Responsible AI & Prompt Engineering
+    if missing:
+        print(f"\nMissing {len(missing)} file(s) (not found):")
+        for m in missing:
+            print(f"  - {m}")
 
----
-
-## 🧾 Certificate Overview
-
-| Year | Provider | Certificate | Focus |
-|------|-----------|-------------|--------|
-| 2025 | DeepLearning.AI | AI Python for Beginners | Python, AI Fundamentals |
-| 2025 | Google | AI Essentials | Responsible AI, LLMs |
-| 2025 | Vanderbilt University | Advanced Prompt Engineering | LLM Orchestration |
-| 2025 | Stanford University | Supervised Machine Learning | Regression, Classification |
-| 2024 | DataCamp | Tableau Analytics Suite | Visualization, KPI Reporting |
-
----
-
-> This repository reflects an evolving learning path – bridging Data Analytics, Business Understanding, and AI-Driven Decision-Making.
-"""
-
-readme_path = os.path.join(root, "README.md")
-
-# Create README.md only if not already existing
-if not os.path.exists(readme_path):
-    with open(readme_path, "w", encoding="utf-8") as f:
-        f.write(readme_content)
-    print("✅ README.md created.")
-else:
-    print("ℹ️ README.md already exists — skipped creation.")
-
-print("✅ Folder structure created inside the existing repo.")
+if __name__ == "__main__":
+    main()
