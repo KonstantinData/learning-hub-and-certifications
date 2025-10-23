@@ -13,11 +13,12 @@ Jedes Modul beinhaltet:
 
 ## 📚 Aktuelle Module
 
-### Intro to Snowflake for Devs, Data Scientists, Data Engineers (2025)
+### COURSERA – Einführung in Snowflake für Entwickler, Data Scientists und Data Engineers (2025)
 
-Fokus: Einführung in die Nutzung von Snowflake zur Entwicklung von Anwendungen, Datenpipelines und KI-Workflows.
-Themen: Core-Objekte (Warehouses, Stages, Datenbanken), Time Travel, Cloning, UDFs, Stored Procedures, Data Engineering, generative AI, Machine Learning, App-Entwicklung mit Snowflake Cortex und Streamlit.
-Status: In Bearbeitung 
+**Fokus:** Einführung in die Nutzung von Snowflake zur Entwicklung von Anwendungen, Datenpipelines und KI-Arbeitsabläufen.
+**Themen:** Kernobjekte (Warehouses, Stages, Datenbanken), Zeitreisen (Time Travel), Klonen (Cloning), benutzerdefinierte Funktionen (UDFs), gespeicherte Prozeduren (Stored Procedures), Datenengineering, generative KI, maschinelles Lernen, App-Entwicklung mit Snowflake Cortex und Streamlit.
+**Status:** *In Bearbeitung*
+
 
 
 ### DeepLearning.AI – Agentic AI Engineering (2025)
