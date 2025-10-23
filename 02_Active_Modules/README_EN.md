@@ -13,13 +13,19 @@ Each module includes:
 
 ## 📚 Current Modules
 
-### 🧠 DeepLearning.AI – Agentic AI Engineering (2025)
+### COURSERA - Intro to Snowflake for Devs, Data Scientists, Data Engineers (2025)
+
+Focus: Introduction to Snowflake for developing applications, data pipelines, and AI workflows.
+Topics: Core objects (warehouses, stages, databases), time travel, cloning, user-defined functions, stored procedures, data engineering, generative AI, machine learning, and app development using Snowflake Cortex and Streamlit.
+Status: In Progress
+
+### DeepLearning.AI – Agentic AI Engineering (2025)
 
 Focus: Building and orchestrating AI agent systems, multi-agent workflows, and evaluation metrics.
 Topics: LLM Orchestration, Reflection & Evaluation, Function Calling, Evals.
 Status: *In Progress*
 
-### 📊 Tableau – Certified Data Analyst (2025)
+### Tableau – Certified Data Analyst (2025)
 
 Focus: Data visualization, KPI dashboards, LOD expressions, and performance optimization.
 Topics: Tableau Desktop, Data Modeling, Storytelling with Data.
