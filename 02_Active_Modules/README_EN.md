@@ -17,13 +17,7 @@ Each module includes:
 
 Focus: Introduction to Snowflake for developing applications, data pipelines, and AI workflows.
 Topics: Core objects (warehouses, stages, databases), time travel, cloning, user-defined functions, stored procedures, data engineering, generative AI, machine learning, and app development using Snowflake Cortex and Streamlit.
-Status: In Progress
-
-### DeepLearning.AI – Agentic AI Engineering (2025)
-
-Focus: Building and orchestrating AI agent systems, multi-agent workflows, and evaluation metrics.
-Topics: LLM Orchestration, Reflection & Evaluation, Function Calling, Evals.
-Status: *In Progress*
+Status: In Progress (33%) 2025.10.25
 
 ### Tableau – Certified Data Analyst (2025)
 
